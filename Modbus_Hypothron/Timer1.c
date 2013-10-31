@@ -7,6 +7,10 @@
 #include "Timer1.h"
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "Params.h"
+#include "ADC.h"
+#include "GlobalConstants.h"
+#include "Flow.h"
 
 uint64_t loops;	//количество тактов в интервале	
 volatile uint32_t overflows;	//необходимое количество переполнений таймера
@@ -53,4 +57,11 @@ void Timer1_Tick()
 	_delay_ms(10);
 	PORTD &= ~1<<PORTD6;
 	*/
+	Measurements[ADC0].value = (ADC_Result[0] * U_ref) / 1023.0;
+	Measurements[ADC1].value = (ADC_Result[1] * U_ref) / 1023.0;
+	Measurements[ADC2].value = (ADC_Result[2] * U_ref) / 1023.0;
+	
+	Measurements[O2].value = Measurements[ADC2].value * Parameters[O2_K].value;
+	Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
+	Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);
 }

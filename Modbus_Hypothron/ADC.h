@@ -12,5 +12,7 @@
 #include <stdint.h>
 
 volatile uint16_t ADC_Result[8];
+void ADC_Init();
+void Get_ADC();
 
 #endif /* ADC_H_ */

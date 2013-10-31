@@ -10,5 +10,6 @@
 #define GLOBALCONSTANTS_H_
 
 extern const float O2_in_air;
+extern const float U_ref;
 
 #endif /* GLOBALCONSTANTS_H_ */

@@ -10,14 +10,24 @@
 #include "Flow.h"
 #include <avr/eeprom.h>
 #include <stdbool.h>
+#include "OxygenCalculations.h"
 
 curvepair_t Curve1[Curve_Size];
 curvepair_t Curve2[Curve_Size];
+parametr_t Measurements[measurements_list_SIZE];
+parametr_t Parameters[parameters_list_SIZE];
+
+uint8_t MB_Comm(uint16_t code);
 
 //Выводим телеметрию и т.п. в Inputs
 void ModbusLoader()
 {
-	
+	int i;
+	for(i = 0; i < measurements_list_SIZE; i++)
+	{
+		usRegInputBuf[2 * i] = Measurements[i].array[0];
+		usRegInputBuf[2 * i + 1] = Measurements[i].array[1];
+	}	
 }
 
 //Обрабатываем значения HoldingRegisters
@@ -30,6 +40,11 @@ void ModbusSaver()
 	temp.value = Out1Calc(temp.value);
 	usRegHoldingBuf[MB_PARAM5] = temp.array[0];
 	usRegHoldingBuf[MB_PARAM6] = temp.array[1]; 
+	
+	//Parameters[O2_K].array[0] = usRegHoldingBuf[MB_O2_K];
+	//Parameters[O2_K].array[1] = usRegHoldingBuf[MB_O2_K + 1];
+	
+	MB_Comm(usRegHoldingBuf[MB_COMMAND]);
 	
 	/*Сохранение новых значений регистров*/
 	ModbusEEPROMLoader();
@@ -155,4 +170,22 @@ void ModbusEEPROMLoader()
 	}
 	
 	ModbusInitValues();
+}
+
+uint8_t MB_Comm(uint16_t code)
+{
+	usRegHoldingBuf[MB_COMMAND] = 0;
+	switch (code)
+	{
+		case 0: 
+		return 0; 
+				
+		case 3:
+		return O2CoeffCalc();
+		
+		default:
+		return 0;
+	}
+	
+	return 0;
 }

@@ -36,12 +36,7 @@ typedef enum
 	MB_CURVE2Y_OFFSET	=	MB_CURVE2X_OFFSET + Curve_Size * 2,
 	MB_O2_K_MIN			=	MB_CURVE2Y_OFFSET + Curve_Size * 2,			
 	MB_O2_K_MAX			=	MB_O2_K_MIN + 2,
-}modbus_holding_params;
-
-typedef enum
-{
-		
-}modbus_;
+}modbus_holding_map;
 
 typedef enum
 {
@@ -58,13 +53,30 @@ typedef enum
 	Flow2	= 2,	//Объемный расход воздуха - грубый канал
 	Vin		= 3,	//Объем вдоха 
 	Vout	= 4,	//Объем выдоха
-	Fbreth	= 4,	//Частота дыхания
+	Fbreth	= 5,	//Частота дыхания
+	ADC0	= 6,	//Усиленный канал
+	ADC1	= 7,	//Грубый канал
+	ADC2	= 8,	//Кислород
+	ADC3	= 9,
+	ADC4	= 10,
+	ADC5	= 11,
+	ADC6	= 12,
+	ADC7	= 13,
 	measurements_list_SIZE
 }measurements_list;
+
+typedef enum
+{
+	O2_K		= 0,
+	O2_K_MIN	= 1,
+	O2_K_MAX	= 2,
+	parameters_list_SIZE
+}parameters_list;
 
 extern curvepair_t Curve1[Curve_Size];
 extern curvepair_t Curve2[Curve_Size];
 extern parametr_t Measurements[measurements_list_SIZE];
+extern parametr_t Parameters[parameters_list_SIZE];
 
 void ModbusLoader();
 void ModbusSaver();

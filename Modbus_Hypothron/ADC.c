@@ -6,43 +6,31 @@
  */ 
 #include <avr/io.h>
 #include "ADC.h"
+#include "GlobalConstants.h"
+#include "Params.h"
 
-ISR(ADC_vect)
+/*Не работает*/
+ISR(ADC_vect, ISR_BLOCK)
 {
-	ADC_Result[ADMUX]=ADC;//ADCH<<8|ADCL;
-	switch (ADMUX)
-	{
-		case 0:
-			ADMUX = 1;
-		break;
-		
-		case 1:
-			ADMUX = 2;
-		break;
-		
-		default:
-			ADMUX = 0;
-	}
-	/*
-	if (ADMUX==0)
-	{
-		ADMUX=1;
-	}
-	else if (ADMUX==1)
-	{
-		ADMUX=2;
-	}
-	else
-	{
-		ADMUX=0;
-	}
-	*/
-	ADCSRA=1<<ADEN|1<<ADSC|0<<ADATE|0<<ADIF|1<<ADIE|1<<ADPS2|1<<ADPS1|1<<ADPS0;
+	Measurements[ADC2].value = (ADC * U_ref) / 1023.0;
+	//ADCSRA=1<<ADEN|1<<ADSC|0<<ADATE|0<<ADIF|1<<ADIE|1<<ADPS2|1<<ADPS1|1<<ADPS0;
 }
 
 void ADC_Init()
 {
-	ADCSRA=1<<ADEN|1<<ADSC|0<<ADATE|0<<ADIF|1<<ADIE|1<<ADPS2|1<<ADPS1|1<<ADPS0;
-	SFIOR = 0<<ADTS2 | 0<<ADTS1 | 0<<ADTS0;
-	ADMUX=0;
+	ADCSRA=1<<ADEN|1<<ADSC|1<<ADATE|0<<ADIF|0<<ADIE|1<<ADPS2|1<<ADPS1|1<<ADPS0;
+    SFIOR = 0<<ADTS2 | 0<<ADTS1 | 0<<ADTS0;
+    ADMUX=2;
+}
+
+uint8_t ADC_Num = 0;
+void Get_ADC()
+{		
+	ADC_Result[ADC_Num] = ADC;//(ADC * U_ref) / 1023.0;
+	ADC_Num++;
+	if (ADC_Num >= 8)
+	{
+		ADC_Num = 0;
+	}
+	ADMUX = ADC_Num;
 }

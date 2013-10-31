@@ -9,8 +9,8 @@
 #ifndef OXYGENCALCULATIONS_H_
 #define OXYGENCALCULATIONS_H_
 
+#include <stdint.h>
 
-
-
+uint8_t O2CoeffCalc();
 
 #endif /* OXYGENCALCULATIONS_H_ */
