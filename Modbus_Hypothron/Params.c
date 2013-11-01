@@ -11,13 +11,17 @@
 #include <avr/eeprom.h>
 #include <stdbool.h>
 #include "OxygenCalculations.h"
+#include "ADC.h"
+#include "GlobalConstants.h"
 
 curvepair_t Curve1[Curve_Size];
 curvepair_t Curve2[Curve_Size];
 parametr_t Measurements[measurements_list_SIZE];
 parametr_t Parameters[parameters_list_SIZE];
 
-uint8_t MB_Comm(uint16_t code);
+void ModbusEEPROMLoader();
+
+uint8_t MbComm(uint16_t code);
 
 //Выводим телеметрию и т.п. в Inputs
 void ModbusLoader()
@@ -44,7 +48,7 @@ void ModbusSaver()
 	//Parameters[O2_K].array[0] = usRegHoldingBuf[MB_O2_K];
 	//Parameters[O2_K].array[1] = usRegHoldingBuf[MB_O2_K + 1];
 	
-	MB_Comm(usRegHoldingBuf[MB_COMMAND]);
+	MbComm(usRegHoldingBuf[MB_COMMAND]);
 	
 	/*Сохранение новых значений регистров*/
 	ModbusEEPROMLoader();
@@ -172,7 +176,7 @@ void ModbusEEPROMLoader()
 	ModbusInitValues();
 }
 
-uint8_t MB_Comm(uint16_t code)
+uint8_t MbComm(uint16_t code)
 {
 	usRegHoldingBuf[MB_COMMAND] = 0;
 	switch (code)
@@ -188,4 +192,11 @@ uint8_t MB_Comm(uint16_t code)
 	}
 	
 	return 0;
+}
+
+void HugeCalculations()
+{
+	Measurements[O2].value = Measurements[ADC2].value * Parameters[O2_K].value;
+	Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
+	Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);
 }

@@ -81,5 +81,6 @@ extern parametr_t Parameters[parameters_list_SIZE];
 void ModbusLoader();
 void ModbusSaver();
 void ModbusInitValues();
+void HugeCalculations();
 
 #endif /* PARAMS_H_ */

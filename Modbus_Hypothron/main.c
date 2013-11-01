@@ -24,12 +24,12 @@ int main(void)
 	DDRC = 1<<PORTC0|1<<PORTC1|1<<PORTC2|0<<PORTC3|0<<PORTC4|0<<PORTC5|0<<PORTC6|0<<PORTC7;
 	DDRD = 0<<PORTD0|0<<PORTD1|1<<PORTD2|0<<PORTD3|1<<PORTD4|0<<PORTD5|1<<PORTD6|0<<PORTD7;
 	
-	Timer1_Init(50);
+	Timer1_Init(10);
 	
 	sei();
 	
-	eMBErrorCode eStatus = eMBInit( MB_RTU, 0x01, 0, UART_BAUD_RATE, MB_PAR_NONE );
-	eStatus = eMBEnable();
+	eMBInit( MB_RTU, 0x01, 0, UART_BAUD_RATE, MB_PAR_NONE );
+	eMBEnable();
 	
 	/*Загружаем в Holding Registers и в массив параметров значения из EEPROM*/
 	ModbusInitValues();
@@ -43,6 +43,7 @@ int main(void)
 		/*Актуализируем значения параметров в соответствии со значениями Holding Registers*/
 		ModbusSaver();
 		Get_ADC();
+		HugeCalculations();
 		/*Итерация Modbus*/
 		eMBPoll();
     }

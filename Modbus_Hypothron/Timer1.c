@@ -38,8 +38,6 @@ ISR (TIMER1_COMPA_vect)
 
 uint8_t Timer1_Init(uint32_t interval)
 {
-	uint32_t modulo;	//количество пунктов таймера в остатке
-	
 	loops = ((uint64_t)interval * F_CPU) / 1000;
 	overflows = loops / 65536;
 	OCR1A = loops % 65536;
@@ -59,9 +57,6 @@ void Timer1_Tick()
 	*/
 	Measurements[ADC0].value = (ADC_Result[0] * U_ref) / 1023.0;
 	Measurements[ADC1].value = (ADC_Result[1] * U_ref) / 1023.0;
-	Measurements[ADC2].value = (ADC_Result[2] * U_ref) / 1023.0;
+	Measurements[ADC2].value = (ADC_Result[2] * U_ref) / 1023.0;	
 	
-	Measurements[O2].value = Measurements[ADC2].value * Parameters[O2_K].value;
-	Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
-	Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);
 }
