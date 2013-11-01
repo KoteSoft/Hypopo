@@ -9,6 +9,8 @@
 #include "GlobalConstants.h"
 #include "Params.h"
 
+volatile uint16_t ADC_Result[8];
+
 /*Не работает*/
 ISR(ADC_vect, ISR_BLOCK)
 {

@@ -11,7 +11,7 @@
 
 #include <stdint.h>
 
-volatile uint16_t ADC_Result[8];
+extern volatile uint16_t ADC_Result[];
 void ADC_Init();
 void Get_ADC();
 
