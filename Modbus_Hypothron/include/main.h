@@ -13,8 +13,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <avr/eeprom.h>
-#include "modbus/mb.h"
-#include "modbus/mbport.h"
+#include <modbus/mb.h>
+#include <modbus/mbport.h>
 
 #define REG_INPUT_START 101	//100
 #define REG_INPUT_NREGS 99

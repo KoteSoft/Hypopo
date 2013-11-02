@@ -25,7 +25,7 @@ typedef struct
 {
 	parametr_t x;
 	parametr_t y;
-}curvepair_t;
+} curvepair_t;
 
 #undef SIZEOF_2
 

@@ -9,7 +9,7 @@
 #ifndef OUTPUT_H_
 #define OUTPUT_H_
 
-void Sound_On();
-void Sound_Off();
+void SoundOn();
+void SoundOff();
 
 #endif /* OUTPUT_H_ */

@@ -26,7 +26,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "..\main.h"
+#include <main.h>
 #include "port.h"
 
 /* ----------------------- Modbus includes ----------------------------------*/
