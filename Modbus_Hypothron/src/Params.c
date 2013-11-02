@@ -4,15 +4,15 @@
 * Created: 08.10.2013 11:27:24
 *  Author: Слава
 */
-#include <Params.h>
-#include <Output.h>
-#include <main.h>
-#include <Flow.h>
+#include <hypopo/Params.h>
+#include <hypopo/Output.h>
+#include <hypopo/main.h>
+#include <hypopo/Flow.h>
+#include <hypopo/OxygenCalculations.h>
+#include <hypopo/ADC.h>
+#include <hypopo/GlobalConstants.h>
 #include <avr/eeprom.h>
 #include <stdbool.h>
-#include <OxygenCalculations.h>
-#include <ADC.h>
-#include <GlobalConstants.h>
 
 curvepair_t Curve1[Curve_Size];
 curvepair_t Curve2[Curve_Size];

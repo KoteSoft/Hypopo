@@ -4,11 +4,11 @@
 * Created: 30.10.2013 20:33:49
 *  Author: Слава
 */
-#include <OxygenCalculations.h>
-#include <ADC.h>
-#include <Params.h>
-#include <GlobalConstants.h>
-#include <main.h>
+#include <hypopo/OxygenCalculations.h>
+#include <hypopo/ADC.h>
+#include <hypopo/Params.h>
+#include <hypopo/GlobalConstants.h>
+#include <hypopo/main.h>
 
 uint8_t O2CoeffCalc()
 {

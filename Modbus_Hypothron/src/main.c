@@ -6,11 +6,11 @@
 */
 
 
-#include <main.h>
-#include <Timer1.h>
-#include <ADC.h>
-#include <Params.h>
-#include <GlobalConstants.h>
+#include <hypopo/main.h>
+#include <hypopo/Timer1.h>
+#include <hypopo/ADC.h>
+#include <hypopo/Params.h>
+#include <hypopo/GlobalConstants.h>
 
 USHORT   usRegInputBuf[REG_INPUT_NREGS];
 USHORT   usRegHoldingBuf[REG_HOLDING_NREGS];

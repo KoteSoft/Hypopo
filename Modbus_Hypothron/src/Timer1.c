@@ -4,13 +4,13 @@
 * Created: 05.10.2013 22:38:59
 *  Author: Слава
 */
-#include <Timer1.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include <Params.h>
-#include <ADC.h>
-#include <GlobalConstants.h>
-#include <Flow.h>
+#include <hypopo/Params.h>
+#include <hypopo/ADC.h>
+#include <hypopo/GlobalConstants.h>
+#include <hypopo/Flow.h>
+#include <hypopo/Timer1.h>
 
 uint64_t loops;	//количество тактов в интервале
 volatile uint32_t overflows;	//необходимое количество переполнений таймера

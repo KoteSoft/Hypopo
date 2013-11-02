@@ -5,9 +5,9 @@
 *  Author: Слава
 */
 #include <avr/io.h>
-#include <ADC.h>
-#include <GlobalConstants.h>
-#include <Params.h>
+#include <hypopo/ADC.h>
+#include <hypopo/GlobalConstants.h>
+#include <hypopo/Params.h>
 
 volatile uint16_t ADC_Result[8];
 

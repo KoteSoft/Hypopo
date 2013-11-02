@@ -4,8 +4,8 @@
 * Created: 20.10.2013 19:02:51
 *  Author: Слава
 */
-#include <Flow.h>
-#include <Params.h>
+#include <hypopo/Flow.h>
+#include <hypopo/Params.h>
 
 //Кусочно-линейная интерполяция
 float PLI(float X0, float Y0, float X1, float Y1, float X)
