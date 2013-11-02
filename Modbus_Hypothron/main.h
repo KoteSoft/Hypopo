@@ -20,9 +20,9 @@
 #define REG_INPUT_NREGS 99
 
 #define REG_HOLDING_START 1201	//1200
-#define REG_HOLDING_NREGS 299
+#define REG_HOLDING_NREGS 300
 
-#define REG_COILS_START     100
+#define REG_COILS_START     10
 #define REG_COILS_SIZE      16
 
 #define UART_BAUD_RATE          19200

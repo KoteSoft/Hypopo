@@ -30,20 +30,26 @@ typedef enum
 	MB_PARAM10			=	9,
 	MB_COMMAND			=	10,	
 	/*Сохраняются в EEPROM*/
-	MB_CURVE1X_OFFSET	=	20,
-	MB_CURVE1Y_OFFSET	=	MB_CURVE1X_OFFSET + Curve_Size * 2,
-	MB_CURVE2X_OFFSET	=	MB_CURVE1Y_OFFSET + Curve_Size * 2,
-	MB_CURVE2Y_OFFSET	=	MB_CURVE2X_OFFSET + Curve_Size * 2,
-	MB_O2_K_MIN			=	MB_CURVE2Y_OFFSET + Curve_Size * 2,			
-	MB_O2_K_MAX			=	MB_O2_K_MIN + 2,
+	MB_CURVE1X_OFFSET		=	20,
+	MB_CURVE1Y_OFFSET		=	MB_CURVE1X_OFFSET + Curve_Size * 2,
+	MB_CURVE2X_OFFSET		=	MB_CURVE1Y_OFFSET + Curve_Size * 2,
+	MB_CURVE2Y_OFFSET		=	MB_CURVE2X_OFFSET + Curve_Size * 2,
+	MB_SAVED_PARAMS_OFFSET	=	MB_CURVE2Y_OFFSET + Curve_Size * 2,
+	MB_O2_K_MIN				=	MB_SAVED_PARAMS_OFFSET,			
+	MB_O2_K_MAX				=	MB_O2_K_MIN + 2,
+	MB_DT_F1				=	MB_O2_K_MAX + 2,
+	MB_RC_F1				=	MB_DT_F1 + 2,
+	MB_DT_F2				=	MB_RC_F1 + 2,
+	MB_RC_F2				=	MB_DT_F2 + 2,
 }modbus_holding_map;
 
 typedef enum
 {
-	EE_CURVE1X_OFFSET	= 0,
-	EE_CURVE1Y_OFFSET	= EE_CURVE1X_OFFSET + Curve_Size * 4,
-	EE_CURVE2X_OFFSET	= EE_CURVE1Y_OFFSET + Curve_Size * 4,
-	EE_CURVE2Y_OFFSET	= EE_CURVE2X_OFFSET + Curve_Size * 4,
+	EE_CURVE1X_OFFSET		= 0,
+	EE_CURVE1Y_OFFSET		= EE_CURVE1X_OFFSET + Curve_Size * 4,
+	EE_CURVE2X_OFFSET		= EE_CURVE1Y_OFFSET + Curve_Size * 4,
+	EE_CURVE2Y_OFFSET		= EE_CURVE2X_OFFSET + Curve_Size * 4,
+	EE_SAVED_PARAMS_OFFSET	= EE_CURVE2Y_OFFSET + Curve_Size * 4,
 }ee_map;
 
 typedef enum
@@ -67,16 +73,26 @@ typedef enum
 
 typedef enum
 {
-	O2_K		= 0,
-	O2_K_MIN	= 1,
-	O2_K_MAX	= 2,
-	parameters_list_SIZE
-}parameters_list;
+	O2_K_MIN,
+	O2_K_MAX,
+	DT_F1,
+	RC_F1,
+	DT_F2,
+	RC_F2,
+	saved_parameters_list_SIZE
+}saved_parameters_list;
+
+typedef enum
+{
+	O2_K,
+	nonsaved_parameters_list_SIZE
+}nonsaved_parameters_list;
 
 extern curvepair_t Curve1[Curve_Size];
 extern curvepair_t Curve2[Curve_Size];
 extern parametr_t Measurements[measurements_list_SIZE];
-extern parametr_t Parameters[parameters_list_SIZE];
+extern parametr_t savedParameters[saved_parameters_list_SIZE];
+extern parametr_t nonsavedParameters[nonsaved_parameters_list_SIZE];
 
 void ModbusLoader();
 void ModbusSaver();

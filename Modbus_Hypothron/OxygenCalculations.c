@@ -12,11 +12,11 @@
 
 uint8_t O2CoeffCalc()
 {
-	Parameters[O2_K].value = O2_in_air / Measurements[ADC2].value;
-	usRegHoldingBuf[MB_O2_K] = Parameters[O2_K].array[0];
-	usRegHoldingBuf[MB_O2_K] = Parameters[O2_K].array[1];
+	nonsavedParameters[O2_K].value = O2_in_air / Measurements[ADC2].value;
+	usRegHoldingBuf[MB_O2_K] = nonsavedParameters[O2_K].array[0];
+	usRegHoldingBuf[MB_O2_K] = nonsavedParameters[O2_K].array[1];
 	
-	if (Parameters[O2_K].value > Parameters[O2_K_MIN].value && Parameters[O2_K].value < Parameters[O2_K_MAX].value)
+	if (nonsavedParameters[O2_K].value > nonsavedParameters[O2_K_MIN].value && nonsavedParameters[O2_K].value < nonsavedParameters[O2_K_MAX].value)
 	{
 		return 5;
 	}

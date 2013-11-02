@@ -17,7 +17,8 @@
 curvepair_t Curve1[Curve_Size];
 curvepair_t Curve2[Curve_Size];
 parametr_t Measurements[measurements_list_SIZE];
-parametr_t Parameters[parameters_list_SIZE];
+parametr_t savedParameters[saved_parameters_list_SIZE];
+parametr_t nonsavedParameters[nonsaved_parameters_list_SIZE];
 
 void ModbusEEPROMLoader();
 
@@ -45,9 +46,6 @@ void ModbusSaver()
 	usRegHoldingBuf[MB_PARAM5] = temp.array[0];
 	usRegHoldingBuf[MB_PARAM6] = temp.array[1]; 
 	
-	//Parameters[O2_K].array[0] = usRegHoldingBuf[MB_O2_K];
-	//Parameters[O2_K].array[1] = usRegHoldingBuf[MB_O2_K + 1];
-	
 	MbComm(usRegHoldingBuf[MB_COMMAND]);
 	
 	/*Сохранение новых значений регистров*/
@@ -63,16 +61,17 @@ void ModbusInitValues()
 		Curve1[i].y.value = eeprom_read_float(EE_CURVE1Y_OFFSET + 4 * i);		
 		Curve2[i].x.value = eeprom_read_float(EE_CURVE2X_OFFSET + 4 * i);
 		Curve2[i].y.value = eeprom_read_float(EE_CURVE2Y_OFFSET + 4 * i);
-		//Curve[i].value = eeprom_read_float(4 * i);
+	}
+	
+	for(uint8_t i = 0; i < saved_parameters_list_SIZE; i++)
+	{
+		savedParameters[i].value = eeprom_read_float(EE_SAVED_PARAMS_OFFSET + 4 * i);
 	}
 
 	for (uint8_t i = 0; i < Curve_Size; i++)
 	{
 		usRegHoldingBuf[2 * i + MB_CURVE1X_OFFSET + 0] = Curve1[i].x.array[0];
 		usRegHoldingBuf[2 * i + MB_CURVE1X_OFFSET + 1] = Curve1[i].x.array[1];
-		
-		//usRegHoldingBuf[2 * i + MB_OFFSET] = Curve[i].array[0];
-		//usRegHoldingBuf[2 * i + MB_OFFSET + 1] = Curve[i].array[1];
 	}
 	
 	for (uint8_t i = 0; i < Curve_Size; i++)
@@ -91,6 +90,12 @@ void ModbusInitValues()
 	{
 		usRegHoldingBuf[2 * i + MB_CURVE2Y_OFFSET + 0] = Curve2[i].y.array[0];
 		usRegHoldingBuf[2 * i + MB_CURVE2Y_OFFSET + 1] = Curve2[i].y.array[1];
+	}
+	
+	for (uint8_t i = 0; i < saved_parameters_list_SIZE; i++)
+	{
+		usRegHoldingBuf[2 * i + MB_SAVED_PARAMS_OFFSET + 0] = savedParameters[i].array[0];
+		usRegHoldingBuf[2 * i + MB_SAVED_PARAMS_OFFSET + 1] = savedParameters[i].array[1];
 	}
 }
 
@@ -152,19 +157,16 @@ void ModbusEEPROMLoader()
 		}
 	}
 
-
-	/*
-	for (uint8_t i = 0; i < coeff_list_SIZE; i++)
+	for (uint8_t i = 0; i < saved_parameters_list_SIZE; i++)
 	{
-		if (!Uint32Comparrer(usRegHoldingBuf[2 * i + MB_OFFSET], usRegHoldingBuf[2 * i + MB_OFFSET + 1], coeffs[i].array[0], coeffs[i].array[1]))
+		if (!Uint32Comparrer(usRegHoldingBuf[2 * i + MB_SAVED_PARAMS_OFFSET], usRegHoldingBuf[2 * i + MB_SAVED_PARAMS_OFFSET + 1], savedParameters[i].array[0], savedParameters[i].array[1]))
 		{
-			coeffs[i].array[0]=usRegHoldingBuf[2 * i + MB_OFFSET];
-			coeffs[i].array[1]=usRegHoldingBuf[2 * i + MB_OFFSET + 1];
-			eeprom_write_float(i * 4, coeffs[i].value);
+			savedParameters[i].array[0] = usRegHoldingBuf[2 * i + MB_SAVED_PARAMS_OFFSET];
+			savedParameters[i].array[1] = usRegHoldingBuf[2 * i + MB_SAVED_PARAMS_OFFSET + 1];
+			eeprom_write_float(EE_SAVED_PARAMS_OFFSET + i * 4, savedParameters[i].value);
 			sond_flag = 1;
 		}
 	}
-	*/
 	
 	if (sond_flag)
 	{
@@ -196,7 +198,9 @@ uint8_t MbComm(uint16_t code)
 
 void HugeCalculations()
 {
-	Measurements[O2].value = Measurements[ADC2].value * Parameters[O2_K].value;
+	Measurements[O2].value = Measurements[ADC2].value * nonsavedParameters[O2_K].value;
 	Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
 	Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);
+	
+	
 }
