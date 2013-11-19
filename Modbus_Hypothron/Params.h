@@ -77,8 +77,10 @@ typedef enum
 	O2_K_MAX,
 	DT_F1,
 	RC_F1,
+	K_F1,
 	DT_F2,
 	RC_F2,
+	K_F2,
 	saved_parameters_list_SIZE
 }saved_parameters_list;
 

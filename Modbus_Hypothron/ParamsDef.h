@@ -21,12 +21,12 @@ typedef union
 	uint16_t array[SIZEOF_2(double_t)];
 } parametr_t;
 
+#undef SIZEOF_2
+
 typedef struct
 {
 	parametr_t x;
 	parametr_t y;
 }curvepair_t;
-
-#undef SIZEOF_2
 
 #endif /* PARAMSDEF_H_ */

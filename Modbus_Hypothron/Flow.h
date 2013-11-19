@@ -9,6 +9,8 @@
 #ifndef FLOW_H_
 #define FLOW_H_
 
+extern float Qprev1, Qprev2;
+
 float Out1Calc(float A);
 float Out2Calc(float A);
 
