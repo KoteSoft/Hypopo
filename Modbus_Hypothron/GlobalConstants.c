@@ -9,3 +9,4 @@
 const float O2_in_air = 20.9;
 const float U_ref = 5.0;
 const uint16_t H_Step = 10;
+const float U0 = 2.50;

@@ -14,6 +14,6 @@
 extern const float O2_in_air; //%кислорода в воздухе
 extern const float U_ref; //опорное напряжение АЦП	
 extern const uint16_t H_Step; //время дискретизации
-const float U0 = 2.50; //Напряжение на выходе усилителя ОРВ при отсутствии потока
+extern const float U0; //Напряжение на выходе усилителя ОРВ при отсутствии потока
 
 #endif /* GLOBALCONSTANTS_H_ */

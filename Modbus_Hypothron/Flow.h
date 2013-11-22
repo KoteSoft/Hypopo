@@ -14,6 +14,7 @@
 extern float Qprev1, Qprev2; //значения ОРВ в предыдущем измерении 
 extern int8_t breathDirection, breathDirectionPre; //вдох/выдох
 extern float flowIntSum; //интегральная сумма потока (объем)
+uint16_t breathTimer; //период вдох-выдох в H_Step
 
 float Out1Calc(float A);
 float Out2Calc(float A);

@@ -86,6 +86,10 @@ typedef enum
 	OFF_F2,
 	MINBR_FT,
 	SWBR_F2,
+	BR_V_MIN,
+	BR_V_MAX,
+	BR_T_MIN,
+	BR_T_MAX,
 	saved_parameters_list_SIZE
 }saved_parameters_list;
 

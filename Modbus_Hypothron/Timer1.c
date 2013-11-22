@@ -73,21 +73,34 @@ void Timer1_Tick()
 		breathDirection = 0;
 	}
 	
-	if (breathDirection == breathDirectionPre)
+	if ((breathDirection == breathDirectionPre) && breathDirection)	//Magic..
 	{
 		flowIntSum += ((Qprev1 + Measurements[FlowT].value) / 2.0) * (float)H_Step;
+		breathTimer++;
 	} 
 	else if (breathDirectionPre != 0)
 	{
 		if (breathDirectionPre > 0)
 		{
-			Measurements[Vin].value = flowIntSum;
+			if ((flowIntSum > savedParameters[BR_V_MIN].value) && (flowIntSum < savedParameters[BR_V_MAX].value))
+			{
+				Measurements[Vin].value = flowIntSum;
+			}
 		} 
 		else
 		{
-			Measurements[Vout].value = flowIntSum;
+			if ((-flowIntSum > savedParameters[BR_V_MIN].value) && (-flowIntSum < savedParameters[BR_V_MAX].value))
+			{
+				Measurements[Vout].value = flowIntSum;
+			}
+			
+			if ((breathTimer > savedParameters[BR_T_MIN].value) && (breathTimer < savedParameters[BR_T_MAX].value))
+			{
+				
+				Measurements[Fbreth].value = 60.0 / ((float)breathTimer / 100.0);
+			}
+			breathTimer = 0;
 		}
-		
 		flowIntSum = 0.0;
 	}
 			
