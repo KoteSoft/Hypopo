@@ -199,8 +199,9 @@ uint8_t MbComm(uint16_t code)
 void HugeCalculations()
 {
 	Measurements[O2].value = Measurements[ADC2].value * nonsavedParameters[O2_K].value;
-	Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
-	Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);
-	
-	
+	FlowCalc();
+	//Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
+	//Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);	
+	//Measurements[Flow1].value = Out1Calc((Measurements[ADC0].value * 6.0 - 15.0) / 5.0);
+	//Measurements[Flow2].value = Out2Calc((Measurements[ADC1].value * 6.0 - 15.0) / 5.0);
 }

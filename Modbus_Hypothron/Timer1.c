@@ -55,8 +55,40 @@ void Timer1_Tick()
 	_delay_ms(10);
 	PORTD &= ~1<<PORTD6;
 	*/
-	Measurements[ADC0].value = (ADC_Result[0] * U_ref) / 1023.0;
-	Measurements[ADC1].value = (ADC_Result[1] * U_ref) / 1023.0;
-	Measurements[ADC2].value = (ADC_Result[2] * U_ref) / 1023.0;	
 	
+	breathDirectionPre = breathDirection;
+	if (fabs(Measurements[FlowT].value) > savedParameters[MINBR_FT].value)
+	{
+		if (Measurements[FlowT].value > 0.0)
+		{
+			breathDirection = 1;
+		} 
+		else
+		{
+			breathDirection = -1;
+		}
+	}
+	else
+	{
+		breathDirection = 0;
+	}
+	
+	if (breathDirection == breathDirectionPre)
+	{
+		flowIntSum += ((Qprev1 + Measurements[FlowT].value) / 2.0) * (float)H_Step;
+	} 
+	else if (breathDirectionPre != 0)
+	{
+		if (breathDirectionPre > 0)
+		{
+			Measurements[Vin].value = flowIntSum;
+		} 
+		else
+		{
+			Measurements[Vout].value = flowIntSum;
+		}
+		
+		flowIntSum = 0.0;
+	}
+			
 }

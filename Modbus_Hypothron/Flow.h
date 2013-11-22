@@ -9,9 +9,14 @@
 #ifndef FLOW_H_
 #define FLOW_H_
 
-extern float Qprev1, Qprev2;
+#include <stdint.h>
+
+extern float Qprev1, Qprev2; //значения ОРВ в предыдущем измерении 
+extern int8_t breathDirection, breathDirectionPre; //вдох/выдох
+extern float flowIntSum; //интегральная сумма потока (объем)
 
 float Out1Calc(float A);
 float Out2Calc(float A);
+void FlowCalc();
 
 #endif /* FLOW_H_ */

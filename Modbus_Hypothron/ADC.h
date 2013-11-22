@@ -14,5 +14,6 @@
 extern volatile uint16_t ADC_Result[];
 void ADC_Init();
 void Get_ADC();
+void ADC_Poll();
 
 #endif /* ADC_H_ */

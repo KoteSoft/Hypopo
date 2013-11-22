@@ -36,3 +36,10 @@ void Get_ADC()
 	}
 	ADMUX = ADC_Num;
 }
+
+void ADC_Poll()
+{
+	Measurements[ADC0].value = (ADC_Result[0] * U_ref) / 1023.0 + savedParameters[OFF_F1].value;
+	Measurements[ADC1].value = (ADC_Result[1] * U_ref) / 1023.0 + savedParameters[OFF_F2].value;
+	Measurements[ADC2].value = (ADC_Result[2] * U_ref) / 1023.0;	
+}

@@ -7,8 +7,11 @@
 #include "Flow.h"
 #include "Params.h"
 #include "Filters.h"
+#include <math.h>
 
 float Qprev1, Qprev2; //значения ОРВ в предыдущем измерении 
+int8_t breathDirection, breathDirectionPre; //вдох/выдох
+float flowIntSum; //интегральная сумма потока (объем)
 
 //Кусочно-линейная интерполяция
 float PLI(float X0, float Y0, float X1, float Y1, float X);
@@ -47,4 +50,18 @@ float Out2Calc(float A)
 	}
 	
 	return 0.;
+}
+
+void FlowCalc()
+{
+	Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
+	Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);
+	if (fabs(Measurements[Flow1].value) > savedParameters[SWBR_F2].value)
+	{
+		Measurements[FlowT].value = Measurements[Flow2].value;
+	} 
+	else
+	{
+		Measurements[FlowT].value = Measurements[Flow1].value;
+	}
 }

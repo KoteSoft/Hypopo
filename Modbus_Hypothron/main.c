@@ -28,7 +28,7 @@ int main(void)
 	Qprev1 = 0.0;
 	Qprev2 = 0.0;
 	
-	Timer1_Init(10);
+	Timer1_Init(H_Step);
 	
 	sei();
 	
@@ -47,6 +47,7 @@ int main(void)
 		/*Актуализируем значения параметров в соответствии со значениями Holding Registers*/
 		ModbusSaver();
 		Get_ADC();
+		ADC_Poll();
 		HugeCalculations();
 		/*Итерация Modbus*/
 		eMBPoll();
