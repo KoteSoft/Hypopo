@@ -10,6 +10,8 @@
 #include "GlobalConstants.h"
 #include "main.h"
 
+float O2_pre;
+
 uint8_t O2CoeffCalc()
 {
 	nonsavedParameters[O2_K].value = O2_in_air / Measurements[ADC2].value;

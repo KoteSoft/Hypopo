@@ -20,7 +20,7 @@ typedef enum
 {
 	/*Не сохраняются в EEPROM*/
 	MB_O2_K				=	0,	//измеренный коэфициент О2->В
-	MB_PARAM3			=	2,
+	MB_O2_SET			=	2,
 	MB_PARAM4			=	3,
 	MB_PARAM5			=	4,
 	MB_PARAM6			=	5,
@@ -90,12 +90,20 @@ typedef enum
 	BR_V_MAX,
 	BR_T_MIN,
 	BR_T_MAX,
+	PT_FAN,
+	IT_FAN,
+	DT_FAN,
+	PI_FAN,
+	II_FAN,
+	DI_FAN,
+	FAN_MIN,
 	saved_parameters_list_SIZE
 }saved_parameters_list;
 
 typedef enum
 {
-	O2_K,
+	O2_K,	//расчитанный коеффициент усиления для датчика кислорода
+	O2_SET,	//заднное для поддержания содержание кислорода в контуре
 	nonsaved_parameters_list_SIZE
 }nonsaved_parameters_list;
 

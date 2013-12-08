@@ -39,13 +39,14 @@ void ModbusLoader()
 void ModbusSaver()
 {
 	/*Обработчики несохраняемых регистров прямого доступа*/
+	/*
 	parametr_t temp;
 	temp.array[0] = usRegHoldingBuf[MB_PARAM3];
 	temp.array[1] = usRegHoldingBuf[MB_PARAM4];
 	temp.value = Out1Calc(temp.value);
 	usRegHoldingBuf[MB_PARAM5] = temp.array[0];
 	usRegHoldingBuf[MB_PARAM6] = temp.array[1]; 
-	
+	*/
 	MbComm(usRegHoldingBuf[MB_COMMAND]);
 	
 	/*Сохранение новых значений регистров*/
@@ -200,8 +201,4 @@ void HugeCalculations()
 {
 	Measurements[O2].value = Measurements[ADC2].value * nonsavedParameters[O2_K].value;
 	FlowCalc();
-	//Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
-	//Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);	
-	//Measurements[Flow1].value = Out1Calc((Measurements[ADC0].value * 6.0 - 15.0) / 5.0);
-	//Measurements[Flow2].value = Out2Calc((Measurements[ADC1].value * 6.0 - 15.0) / 5.0);
 }

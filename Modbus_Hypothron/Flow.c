@@ -13,6 +13,7 @@ float Qprev1, Qprev2; //значения ОРВ в предыдущем изме
 int8_t breathDirection, breathDirectionPre; //вдох/выдох
 float flowIntSum; //интегральная сумма потока (объем)
 uint16_t breathTimer; //период вдох-выдох
+int8_t breathDirectionStack[3];
 
 //Кусочно-линейная интерполяция
 float PLI(float X0, float Y0, float X1, float Y1, float X);

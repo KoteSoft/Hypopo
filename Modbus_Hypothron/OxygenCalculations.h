@@ -11,6 +11,8 @@
 
 #include <stdint.h>
 
+extern float O2_pre; //содержание кислорода змеренное в предыдущем измерении
+
 uint8_t O2CoeffCalc();
 
 #endif /* OXYGENCALCULATIONS_H_ */
