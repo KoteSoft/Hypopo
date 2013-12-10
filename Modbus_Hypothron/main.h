@@ -25,7 +25,7 @@
 #define REG_COILS_START     10
 #define REG_COILS_SIZE      16
 
-#define UART_BAUD_RATE          19200
+#define UART_BAUD_RATE      56000 //19200
 #define UART_BAUD_CALC(UART_BAUD_RATE,F_OSC) \
 ( ( F_OSC ) / ( ( UART_BAUD_RATE ) * 16UL ) - 1 )
 

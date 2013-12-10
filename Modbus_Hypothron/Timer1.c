@@ -12,6 +12,7 @@
 #include "GlobalConstants.h"
 #include "Flow.h"
 #include "Fan.h"
+#include <stdint.h>
 
 uint64_t loops;	//количество тактов в интервале	
 volatile uint32_t overflows;	//необходимое количество переполнений таймера
@@ -23,14 +24,14 @@ ISR (TIMER1_OVF_vect)
 	overflows--;
 	if (overflows<=0)
 	{
-		TIMSK &= ~1<<TOIE1;
+		TIMSK &= ~(1<<TOIE1);
 		TIMSK |= 1<<OCIE1A;
 	}
 }
 
-ISR (TIMER1_COMPA_vect)
-{
-	TIMSK &= ~1<<OCIE1A;
+ISR (TIMER1_COMPA_vect, ISR_NOBLOCK)
+{	
+	TIMSK &= ~(1<<OCIE1A);
 	TIMSK |= 1<<TOIE1;
 	overflows = loops / 65536;
 	
@@ -79,11 +80,16 @@ void Timer1_Tick()
 		flowIntSum += ((Qprev1 + Measurements[FlowT].value) / 2.0) * (float)H_Step;
 		breathTimer++;
 		
-		if ((breathDirection == -1) && (fanTimer > 0))///////////////////ACHTUNG!!!! -1
+		
+		if ((breathDirection == 1) && (fanTimer > 0))
 		{
 			OCR2 = fanSpeed;
 			fanTimer--;
 		}
+		else
+		{
+			OCR2 = 0;
+		}		
 	} 
 	else if (breathDirectionPre != 0) //вдох/выдох закончился
 	{
@@ -114,5 +120,6 @@ void Timer1_Tick()
 			fanTimer = FanTimeCalc(P_Fan, D_Fan);
 		}
 		flowIntSum = 0.0;
-	}			
+	}
+	//OCR2 = savedParameters[IT_FAN].value;			
 }
