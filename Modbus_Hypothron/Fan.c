@@ -33,7 +33,7 @@ uint8_t FanSpeedCalc(float P, float D)
 	{
 		Out = 255.0;
 	}
-	else if (Out < 0.0)
+	else if (Out < savedParameters[FAN_MIN].value)
 	{
 		Out = 0.0;
 	}

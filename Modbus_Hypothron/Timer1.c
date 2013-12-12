@@ -55,7 +55,7 @@ void Timer1_Tick()
 	/*
 	PORTD |= 1<<PORTD6;
 	_delay_ms(10);
-	PORTD &= ~1<<PORTD6;
+	PORTD &= ~(1<<PORTD6);
 	*/
 	
 	breathDirectionPre = breathDirection;

@@ -39,14 +39,10 @@ void ModbusLoader()
 void ModbusSaver()
 {
 	/*Обработчики несохраняемых регистров прямого доступа*/
-	/*
-	parametr_t temp;
-	temp.array[0] = usRegHoldingBuf[MB_PARAM3];
-	temp.array[1] = usRegHoldingBuf[MB_PARAM4];
-	temp.value = Out1Calc(temp.value);
-	usRegHoldingBuf[MB_PARAM5] = temp.array[0];
-	usRegHoldingBuf[MB_PARAM6] = temp.array[1]; 
-	*/
+	//parametr_t temp;
+	nonsavedParameters[O2_SET].array[0] = usRegHoldingBuf[O2_SET * 2];
+	nonsavedParameters[O2_SET].array[1] = usRegHoldingBuf[O2_SET * 2 + 1];
+	
 	MbComm(usRegHoldingBuf[MB_COMMAND]);
 	
 	/*Сохранение новых значений регистров*/

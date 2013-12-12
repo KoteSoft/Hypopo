@@ -79,7 +79,6 @@ vMBPortTimersDisable(  )
     TIFR1 |= _BV( OCF0 ) ;
 }
 
-//ISR( TIMER2_COMP_vect, ISR_NOBLOCK )
 ISR( TIMER0_COMP_vect, ISR_BLOCK )
 {
     ( void )pxMBPortCBTimerExpired(  );
