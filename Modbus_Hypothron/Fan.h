@@ -14,7 +14,8 @@
 extern float P_Fan;	//разница между текущим содержанием кислорода и заданным
 extern float D_Fan;	//скорость изменения содержания кислорода (производная P_Fan)
 extern float preMeasP_Fan; //содержание кислорода, измеренное на предыдущем вдохе
-extern uint16_t fanTimer; //таймер работы вентилятора
+extern uint16_t fanTimer; //10 сек. таймер работы вентилятора
+extern uint16_t fanTime; //заданное время работы вентилятора
 extern uint8_t fanSpeed; //заданная скорость вентилятора
 
 void PWM_Timer2_Init();

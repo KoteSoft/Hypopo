@@ -64,7 +64,7 @@ typedef enum
 	ADC0,	//Усиленный канал
 	ADC1,	//Грубый канал
 	ADC2,	//Кислород
-	ADC3,	
+	ADC3,	//Новый дифманометр
 	ADC4,	
 	ADC5,	
 	ADC6,	
@@ -97,6 +97,7 @@ typedef enum
 	II_FAN,
 	DI_FAN,
 	FAN_MIN,
+	FAN_PID_T,
 	saved_parameters_list_SIZE
 }saved_parameters_list;
 

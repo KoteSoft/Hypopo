@@ -58,6 +58,26 @@ void Timer1_Tick()
 	PORTD &= ~(1<<PORTD6);
 	*/
 	
+	fanTimer++;
+	if (fanTimer > (uint16_t)savedParameters[FAN_PID_T].value) //10sec
+	{
+		fanTimer = 0;
+		preMeasP_Fan = P_Fan;
+		P_Fan = nonsavedParameters[O2_SET].value - Measurements[O2].value;
+		D_Fan = P_Fan - preMeasP_Fan;
+		fanSpeed = FanSpeedCalc(P_Fan, D_Fan);
+		fanTime = FanTimeCalc(P_Fan, D_Fan);
+	} 
+	
+	if (fanTime > fanTimer)
+	{
+		OCR2 = fanSpeed;
+	}
+	else
+	{
+		OCR2 = 0;
+	}	
+	
 	breathDirectionPre = breathDirection;
 	if (fabs(Measurements[FlowT].value) > savedParameters[MINBR_FT].value)	//определяем вдох или выдох
 	{
@@ -80,7 +100,7 @@ void Timer1_Tick()
 		flowIntSum += ((Qprev1 + Measurements[FlowT].value) / 2.0) * (float)H_Step;
 		breathTimer++;
 		
-		
+		/*
 		if ((breathDirection == 1) && (fanTimer > 0))
 		{
 			OCR2 = fanSpeed;
@@ -89,7 +109,8 @@ void Timer1_Tick()
 		else
 		{
 			OCR2 = 0;
-		}		
+		}
+		*/		
 	} 
 	else if (breathDirectionPre != 0) //вдох/выдох закончился
 	{
@@ -114,10 +135,12 @@ void Timer1_Tick()
 			breathTimer = 0;
 			
 			/*Вначале вдоха расччитываем параметры вентилятора*/
+			/*
 			P_Fan = nonsavedParameters[O2_SET].value - Measurements[O2].value;
 			D_Fan = preMeasP_Fan - P_Fan;
 			fanSpeed = FanSpeedCalc(P_Fan, D_Fan);
 			fanTimer = FanTimeCalc(P_Fan, D_Fan);
+			*/
 		}
 		flowIntSum = 0.0;
 	}

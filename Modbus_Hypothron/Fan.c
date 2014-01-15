@@ -14,6 +14,7 @@ float P_Fan;
 float D_Fan;
 float preMeasP_Fan;
 uint16_t fanTimer;
+uint16_t fanTime;
 uint8_t fanSpeed;
 
 void PWM_Timer2_Init()
@@ -48,9 +49,9 @@ uint16_t FanTimeCalc(float P, float D)
 	Out = P * savedParameters[PT_FAN].value;
 	Out += D * savedParameters[DT_FAN].value;
 		
-	if (Out > 65500.0)
+	if (Out > savedParameters[FAN_PID_T].value)
 	{
-		Out = 65500.0;
+		Out = savedParameters[FAN_PID_T].value;
 	}
 	else if (Out < 0.0)
 	{
