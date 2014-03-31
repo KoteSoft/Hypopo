@@ -126,14 +126,14 @@ void Timer1_Tick()
 			if ((-flowIntSum > savedParameters[BR_V_MIN].value) && (-flowIntSum < savedParameters[BR_V_MAX].value))
 			{
 				Measurements[Vout].value = flowIntSum;
-			}
 			
-			if ((breathTimer > savedParameters[BR_T_MIN].value) && (breathTimer < savedParameters[BR_T_MAX].value)) //по оканчании вдоха, измеряем период дыхания
-			{				
-				Measurements[Fbreth].value = 60.0 / ((float)breathTimer / 100.0);
-			}
-			breathTimer = 0;
 			
+				if ((breathTimer > savedParameters[BR_T_MIN].value) && (breathTimer < savedParameters[BR_T_MAX].value)) //по оканчании вдоха, измеряем период дыхания
+				{				
+					Measurements[Fbreth].value = 60.0 / ((float)breathTimer / 100.0);
+				}
+				breathTimer = 0;
+			}
 			/*Вначале вдоха расччитываем параметры вентилятора*/
 			/*
 			P_Fan = nonsavedParameters[O2_SET].value - Measurements[O2].value;

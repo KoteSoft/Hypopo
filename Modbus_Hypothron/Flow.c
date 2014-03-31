@@ -8,6 +8,7 @@
 #include "Params.h"
 #include "Filters.h"
 #include <math.h>
+#include "GlobalConstants.h"
 
 float Qprev1, Qprev2; //значения ОРВ в предыдущем измерении 
 int8_t breathDirection, breathDirectionPre; //вдох/выдох
@@ -36,6 +37,8 @@ float Out1Calc(float A)
 	}	
 	
 	return 0.;	
+		
+	//return pow((A * Curve2[0].x.value), 3.0);
 }
 
 float Out2Calc(float A)
@@ -54,11 +57,24 @@ float Out2Calc(float A)
 	return 0.;
 }
 
+float OutCalc(float p)
+{
+	float temp;
+	
+	if (p < 0.0)
+	{
+		temp = -1.0 * Curve2[0].x.value * sqrt(2 * Rho * (-p) * Curve2[0].x.value);
+	} 
+	else
+		temp = Curve2[0].x.value * sqrt(2 * Rho * p * Curve2[0].x.value);
+	return ModifyLowPassFilter(temp, Qprev2, savedParameters[DT_F2].value, savedParameters[RC_F2].value, savedParameters[K_F2].value);	
+}
+
 void FlowCalc()
 {
 	//Measurements[Flow1].value = Out1Calc(Measurements[ADC0].value * 2.0 - 5.0);
 	//Measurements[Flow2].value = Out2Calc(Measurements[ADC1].value * 2.0 - 5.0);
-	Measurements[Flow2].value = Out2Calc(Measurements[ADC0].value);
+	Measurements[Flow2].value = OutCalc(Measurements[ADC0].value-2.50);
 	
 	if (fabs(Measurements[Flow2].value) > savedParameters[SWBR_F2].value)
 	{
