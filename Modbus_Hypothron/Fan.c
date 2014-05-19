@@ -46,7 +46,7 @@ uint16_t FanTimeCalc(float P, float D)
 {
 	float Out = 0.0;
 		
-	Out = P * savedParameters[PT_FAN].value;
+	Out = P * (savedParameters[PT_FAN].value + savedParameters[NLIN_FAN].value * nonsavedParameters[O2_SET].value);
 	Out += D * savedParameters[DT_FAN].value;
 		
 	if (Out > savedParameters[FAN_PID_T].value)

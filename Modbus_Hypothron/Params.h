@@ -98,6 +98,8 @@ typedef enum
 	DI_FAN,
 	FAN_MIN,
 	FAN_PID_T,
+	CE,
+	NLIN_FAN,
 	saved_parameters_list_SIZE
 }saved_parameters_list;
 

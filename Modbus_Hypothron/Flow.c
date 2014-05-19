@@ -63,10 +63,10 @@ float OutCalc(float p)
 	
 	if (p < 0.0)
 	{
-		temp = -1.0 * Curve2[0].x.value * sqrt(2 * Rho * (-p) * Curve2[0].x.value);
+		temp = -1.0 * savedParameters[CE].value * sqrt(2 * Rho * (-p) * savedParameters[CE].value);
 	} 
 	else
-		temp = Curve2[0].x.value * sqrt(2 * Rho * p * Curve2[0].x.value);
+		temp = savedParameters[CE].value * sqrt(2 * Rho * p * savedParameters[CE].value);
 	return ModifyLowPassFilter(temp, Qprev2, savedParameters[DT_F2].value, savedParameters[RC_F2].value, savedParameters[K_F2].value);	
 }
 

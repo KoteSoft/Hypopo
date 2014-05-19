@@ -167,9 +167,13 @@ void ModbusEEPROMLoader()
 	
 	if (sond_flag)
 	{
-		Sound_On();
-		_delay_ms(100);
-		Sound_Off();
+		for(int i = 0; i<100; i++)
+		{
+			Sound_On();
+			_delay_us(500);
+			Sound_Off();
+			_delay_us(500);
+		}
 	}
 	
 	ModbusInitValues();
