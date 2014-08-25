@@ -13,6 +13,8 @@
 #include "GlobalConstants.h"
 #include "Flow.h"
 #include "Fan.h"
+#include "i2c.h"
+#include "CMS50L.h"
 
 USHORT   usRegInputBuf[REG_INPUT_NREGS];
 USHORT   usRegHoldingBuf[REG_HOLDING_NREGS];
@@ -21,19 +23,23 @@ unsigned char ucRegCoilsBuf[REG_COILS_SIZE / 8];
 
 int main(void)
 {
+	_delay_ms(500);
+	
 	DDRA = 0x00;
 	DDRB = 1<<PORTB0|1<<PORTB1|1<<PORTB2|1<<PORTB3|1<<PORTB4|1<<PORTB5|1<<PORTB6|1<<PORTB7;
-	DDRC = 1<<PORTC0|1<<PORTC1|1<<PORTC2|0<<PORTC3|0<<PORTC4|0<<PORTC5|0<<PORTC6|0<<PORTC7;
+	DDRC = 0<<PORTC0|0<<PORTC1|1<<PORTC2|0<<PORTC3|0<<PORTC4|0<<PORTC5|0<<PORTC6|0<<PORTC7;
 	DDRD = 0<<PORTD0|0<<PORTD1|1<<PORTD2|0<<PORTD3|1<<PORTD4|0<<PORTD5|1<<PORTD6|1<<PORTD7;
 	
 	Qprev1 = 0.0;
 	Qprev2 = 0.0;
 	
-	Timer1_Init(H_Step);
-	PWM_Timer2_Init();
-	
+	Timer1_Init(H_Step);	//РАСКОММЕНТИРОВАТЬ!!!!!!!!!!
+	PWM_Timer2_Init();	//РАСКОММЕНТИРОВАТЬ!!!!!!!!!!
+	i2c_Init();
+		
 	sei();
 	
+	CMS50L_Poll();
 	eMBInit( MB_RTU, 0x01, 0, UART_BAUD_RATE, MB_PAR_NONE );
 	eMBEnable();
 	

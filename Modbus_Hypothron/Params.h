@@ -64,11 +64,13 @@ typedef enum
 	ADC0,	//Усиленный канал
 	ADC1,	//Грубый канал
 	ADC2,	//Кислород
-	ADC3,	//Новый дифманометр
+	ADC3,	//Датчик СО2
 	ADC4,	
 	ADC5,	
 	ADC6,	
 	ADC7,	
+	HR,		//ЧСС
+	SPO2,	//Сатурация крови
 	measurements_list_SIZE
 }measurements_list;
 
