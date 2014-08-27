@@ -71,6 +71,14 @@ typedef enum
 	ADC7,	
 	HR,		//ЧСС
 	SPO2,	//Сатурация крови
+	I2C_TEST1,
+	I2C_TEST2,
+	I2C_TEST3,
+	I2C_TEST4,
+	I2C_TEST5,
+	I2C_TEST6,
+	I2C_TEST7,
+	I2C_TEST8,
 	measurements_list_SIZE
 }measurements_list;
 
@@ -112,8 +120,8 @@ typedef enum
 	nonsaved_parameters_list_SIZE
 }nonsaved_parameters_list;
 
-extern curvepair_t Curve1[Curve_Size];
-extern curvepair_t Curve2[Curve_Size];
+//extern curvepair_t Curve1[Curve_Size];
+//extern curvepair_t Curve2[Curve_Size];
 extern parametr_t Measurements[measurements_list_SIZE];
 extern parametr_t savedParameters[saved_parameters_list_SIZE];
 extern parametr_t nonsavedParameters[nonsaved_parameters_list_SIZE];

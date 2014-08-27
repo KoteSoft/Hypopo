@@ -39,7 +39,6 @@ int main(void)
 		
 	sei();
 	
-	CMS50L_Poll();
 	eMBInit( MB_RTU, 0x01, 0, UART_BAUD_RATE, MB_PAR_NONE );
 	eMBEnable();
 	

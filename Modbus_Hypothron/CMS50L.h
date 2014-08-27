@@ -13,6 +13,4 @@
 
 #define CMS50L_ADDR (0x4E)
 
-uint8_t CMS50L_Poll();
-
 #endif /* CMS50L_H_ */
