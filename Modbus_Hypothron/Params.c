@@ -124,5 +124,6 @@ uint8_t MbComm(uint16_t code)
 void HugeCalculations()
 {
 	Measurements[O2].value = Measurements[ADC2].value * nonsavedParameters[O2_K].value;
+	Measurements[CO2].value = ((pow(10.0, ((Measurements[ADC3].value / savedParameters[K_AMP].value - savedParameters[EMF0].value) / savedParameters[DELTA_EMF].value) * (log10(400.0) - log10(1000.0)) + log10(400.0)))/10000);
 	FlowCalc();
 }

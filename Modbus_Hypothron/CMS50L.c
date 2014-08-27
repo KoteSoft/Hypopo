@@ -82,74 +82,18 @@ ISR(TWI_vect, ISR_BLOCK)
 			if (i2c_state == 5)
 			{
 				Measurements[HR].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 6;
-			}
-			
-			else if (i2c_state == 6)
-			{
-				Measurements[SPO2].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 7;
-			}
-			
-			else if (i2c_state == 7)
-			{
-				Measurements[I2C_TEST1].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 8;
-			}
-			
-			else if (i2c_state == 8)
-			{
-				Measurements[I2C_TEST2].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 9;
-			}
-			
-			else if (i2c_state == 9)
-			{
-				Measurements[I2C_TEST3].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 10;
-			}
-			
-			else if (i2c_state == 10)
-			{
-				Measurements[I2C_TEST4].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 11;
-			}
-			
-			else if (i2c_state == 11)
-			{
-				Measurements[I2C_TEST5].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 12;
-			}
-			
-			else if (i2c_state == 12)
-			{
-				Measurements[I2C_TEST6].value = TWDR;
-				twi(TWI_RECEIVE_ACK);
-				i2c_state = 13;
-			}
-			
-			else if (i2c_state == 13)
-			{
-				Measurements[I2C_TEST7].value = TWDR;
 				twi(TWI_RECEIVE_NACK);
-				i2c_state = 14;
-			}
+				i2c_state = 6;
+			}			
 			
 			break;
 		}
 		
 		case 0x58:
 		{
-			if (i2c_state == 14)
+			if (i2c_state == 6)
 			{				
-				Measurements[I2C_TEST8].value = TWDR;
+				Measurements[SPO2].value = TWDR;
 				twi(TWI_RESTART);
 				i2c_state = 0;
 			}

@@ -14,7 +14,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define I2C_SPEED			4000L
+#define I2C_SPEED			400L
 
 #define TWI_START			0
 #define TWI_RESTART         1
