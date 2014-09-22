@@ -43,4 +43,8 @@ void ADC_Poll()
 	Measurements[ADC1].value = (ADC_Result[1] * U_ref) / 1023.0 + savedParameters[OFF_F2].value;
 	Measurements[ADC2].value = (ADC_Result[2] * U_ref) / 1023.0;	
 	Measurements[ADC3].value = (ADC_Result[3] * U_ref) / 1023.0;
+	Measurements[ADC4].value = (ADC_Result[4] * U_ref) / 1023.0;
+	Measurements[ADC5].value = (ADC_Result[5] * U_ref) / 1023.0;
+	Measurements[ADC6].value = (ADC_Result[6] * U_ref) / 1023.0;
+	Measurements[ADC7].value = (ADC_Result[7] * U_ref) / 1023.0;
 }
