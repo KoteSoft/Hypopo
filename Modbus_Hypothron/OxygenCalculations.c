@@ -14,7 +14,7 @@ float O2_pre;
 
 uint8_t O2CoeffCalc()
 {
-	nonsavedParameters[O2_K].value = O2_in_air / Measurements[ADC2].value;
+	nonsavedParameters[O2_K].value = O2_in_air / Measurements[ADC4].value;
 	usRegHoldingBuf[MB_O2_K] = nonsavedParameters[O2_K].array[0];
 	usRegHoldingBuf[MB_O2_K] = nonsavedParameters[O2_K].array[1];
 	
