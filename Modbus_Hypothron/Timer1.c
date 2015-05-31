@@ -13,11 +13,19 @@
 #include "Flow.h"
 #include "Fan.h"
 #include <stdint.h>
+#include "measQueue.h"
+#include "Output.h"
 
 uint64_t loops;	//количество тактов в интервале	
 volatile uint32_t overflows;	//необходимое количество переполнений таймера
+volatile uint8_t queueMeasPrecounter = 0; //Предделитель 
+volatile static uint8_t beepCounter = 0;
 
 void Timer1_Tick();	
+void StateMachine();
+uint8_t PatientDamage();
+uint8_t PatientAlarm();
+uint8_t PatientDiagnosticEnd();
 
 ISR (TIMER1_OVF_vect)
 {
@@ -77,6 +85,11 @@ void Timer1_Tick()
 	{
 		OCR2 = 0;
 	}	
+	
+	if (Measurements[STATE].array[0] == DEVICE_PROCEDURE_DAMAGE_STATE || Measurements[STATE].array[0] == DEVICE_DIAGNOSTIC_END_STATE)
+	{
+		OCR2 = 250;
+	}
 	
 	breathDirectionPre = breathDirection;
 	if (fabs(Measurements[FlowT].value) > savedParameters[MINBR_FT].value)	//определяем вдох или выдох
@@ -145,4 +158,167 @@ void Timer1_Tick()
 		flowIntSum = 0.0;
 	}
 	//OCR2 = savedParameters[IT_FAN].value;			
+	
+	queueMeasPrecounter++;
+	if (queueMeasPrecounter >= 100)
+	{
+		DoQueueMeas();
+		queueMeasPrecounter = 0;
+	}
+	
+	if (queueMeasPrecounter<50 && beepCounter > 0)
+	{
+		Sound_On();
+		beepCounter--;
+	} 
+	else
+	{
+		Sound_Off();
+	}
+	
+	StateMachine();
+}
+
+void StateMachine()
+{
+	switch (Measurements[STATE].array[0])
+	{
+		case DEVICE_DIAGNOSTIC_STATE:
+		{
+			if (PatientDamage())
+			{
+				Measurements[STATE].array[0] = DEVICE_PROCEDURE_DAMAGE_STATE;
+				break;
+			}
+			
+			if (PatientAlarm())
+			{
+				Measurements[STATE].array[0] = DEVICE_PROCEDURE_ALARM_STATE;
+				break;
+			}
+			
+			if (PatientDiagnosticEnd())
+			{
+				Measurements[STATE].array[0] = DEVICE_DIAGNOSTIC_END_STATE;
+				break;
+			}
+			break;
+		}
+	
+	
+		case DEVICE_THERAPY_STATE:
+		{
+			if (PatientDamage())
+			{
+				Measurements[STATE].array[0] = DEVICE_PROCEDURE_DAMAGE_STATE;
+				break;
+			}
+			
+			if (PatientAlarm())
+			{
+				Measurements[STATE].array[0] = DEVICE_PROCEDURE_ALARM_STATE;
+				break;
+			}
+			break;
+		}
+		
+		case DEVICE_PROCEDURE_ALARM_STATE:
+		{
+			beepCounter = 5;
+			break;
+		}
+		
+		case DEVICE_PROCEDURE_DAMAGE_STATE:
+		{
+			beepCounter = 255;
+			break;
+		}
+		
+		default:
+		{
+			beepCounter = 0;
+			break;
+		}
+	}
+}
+
+uint8_t PatientDamage()
+{
+	if (Measurements[CO2].value > 1.0)
+	{
+		Measurements[DAMAGE].value = 1;
+		return 1;
+	}
+	
+	if (Measurements[SPO2_AVG].value < 75)
+	{
+		Measurements[DAMAGE].value = 2;
+		return 2;
+	}
+	
+	if (Measurements[HR_AVG].value < 40 || Measurements[HR_AVG].value > 140)
+	{
+		Measurements[DAMAGE].value = 3;
+		return 3;
+	}
+	
+	return 0;
+}
+
+uint8_t PatientAlarm()
+{
+	if (Measurements[CO2].value > 0.8)
+	{
+		Measurements[ALARM].value = 1;
+		return 1;
+	}
+	
+	if (Measurements[SPO2_AVG].value < 80.1)
+	{
+		Measurements[ALARM].value = 2;
+		return 2;
+	}
+	
+	if (Measurements[HR_AVG].value < 50 || Measurements[HR_AVG].value > 110)
+	{
+		Measurements[ALARM].value = 1;
+		return 3;
+	}
+	
+	return 0;
+}
+
+uint8_t PatientDiagnosticEnd()
+{
+	if (Measurements[O2].value < 10.1)
+	{
+		Measurements[DIAG].value = 1;
+		return 1;
+	}
+	
+	if (Measurements[SPO2_AVG].value < 80.1)
+	{
+		Measurements[DIAG].value = 2;
+		return 2;
+	}
+	
+	if (Measurements[HR_AVG].value < 50 || Measurements[HR_AVG].value > 110)
+	{
+		Measurements[DIAG].value = 3;
+		return 3;
+	}	
+	
+	if (Measurements[Fbreth].value - Measurements[F_BR_START].value > Measurements[F_BR_START].value * 0.5)
+	{
+		Measurements[DIAG].value = 4;
+		return 4;
+	}
+	
+	if (Measurements[HR_AVG].value - Measurements[HR_START].value > Measurements[HR_START].value * 0.5)
+	{
+		Measurements[DIAG].value = 5;
+		return 5;
+	}
+	
+	return 0;
 }

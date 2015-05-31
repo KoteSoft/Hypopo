@@ -114,6 +114,30 @@ uint8_t MbComm(uint16_t code)
 		case 3:
 		return O2CoeffCalc();
 		
+		case 4:
+		{
+			Measurements[DAMAGE].value = 0.0;
+			Measurements[ALARM].value = 0.0;
+			Measurements[DIAG].value = 0.0;
+			Measurements[STATE].array[0] = DEVICE_THERAPY_STATE;
+			return 0;
+		}
+		
+		case 5:
+		{
+			Measurements[F_BR_START].value = Measurements[Fbreth].value;
+			Measurements[HR_START].value = Measurements[HR_AVG].value;
+			Measurements[STATE].array[0] = DEVICE_DIAGNOSTIC_STATE;
+			nonsavedParameters[O2_SET].value = 0.0;
+			return 0;
+		}
+		
+		case 6:
+		{
+			Measurements[STATE].array[0] = DEVICE_IDLE_STATE;
+			return 0;
+		}
+		
 		default:
 		return 0;
 	}

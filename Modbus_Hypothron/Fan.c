@@ -19,8 +19,9 @@ uint8_t fanSpeed;
 
 void PWM_Timer2_Init()
 {
-	TCCR2 = 0<<FOC2 | 1<<WGM20 | 1<<COM21 | 0<<COM20 | 1<<WGM21 | 0<<CS22 | 0<<CS21 | 1<<CS20;
+	TCCR2 = 0<<FOC2 | 1<<WGM20 | 1<<COM21 | 0<<COM20 | 1<<WGM21 | 0<<CS22 | 1<<CS21 | 0<<CS20;
 	OCR2 = 0;
+	TIMSK |= 1 << TOIE2;
 }
 
 uint8_t FanSpeedCalc(float P, float D)

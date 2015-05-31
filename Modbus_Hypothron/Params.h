@@ -20,9 +20,9 @@ typedef enum
 {
 	/*Не сохраняются в EEPROM*/
 	MB_O2_K				=	0,	//измеренный коэфициент О2->В
-	MB_O2_SET			=	2,
-	MB_PARAM4			=	3,
-	MB_PARAM5			=	4,
+	MB_O2_SET			=	2,	//Заданная к поддержанию концентрация О2
+	MB_AGE				=	3,	//Возраст пациента
+	MB_STATE			=	4,	//Состояние/режим работы
 	MB_PARAM6			=	5,
 	MB_PARAM7			=	6,
 	MB_PARAM8			=	7,
@@ -72,40 +72,51 @@ typedef enum
 	HR,		//ЧСС
 	SPO2,	//Сатурация крови
 	CO2,
+	HR_AVG,
+	SPO2_AVG,
+	HR_DEV,
+	SPO2_DEV,
+	HR_START,
+	F_BR_START,
+	STATE,
+	ALARM,
+	DAMAGE,
+	DIAG,
 	measurements_list_SIZE
 }measurements_list;
 
+/*Список параметров, которые сохраняются в EEPROM ПЗУ*/
 typedef enum
 {
-	O2_K_MIN,
-	O2_K_MAX,
-	DT_F1,
-	RC_F1,
-	K_F1,
-	DT_F2,
-	RC_F2,
-	K_F2,
-	OFF_F1,
-	OFF_F2,
-	MINBR_FT,
-	SWBR_F2,
-	BR_V_MIN,
-	BR_V_MAX,
-	BR_T_MIN,
-	BR_T_MAX,
-	PT_FAN,
-	IT_FAN,
-	DT_FAN,
-	PI_FAN,
-	II_FAN,
-	DI_FAN,
-	FAN_MIN,
-	FAN_PID_T,
-	CE,
-	NLIN_FAN,
-	EMF0,
-	DELTA_EMF,
-	K_AMP,
+	O2_K_MIN,	//Ограничение минимального значения коэффициента О2->В
+	O2_K_MAX,	//Ограничение максимального значения коэффициента О2->В
+	DT_F1,		//Константа времени RC-фильтра канала 1 - НЕ ИСПОЛЬЗУЕТСЯ
+	RC_F1,		//Коэффициент RC RC-фильтра канала 1 - НЕ ИСПОЛЬЗУЕТСЯ
+	K_F1,		//Коэффициент усиления RC-фильтра канала 1 - НЕ ИСПОЛЬЗУЕТСЯ
+	DT_F2,		//Константа времени RC-фильтра канала 1 - НЕ ИСПОЛЬЗУЕТСЯ
+	RC_F2,		//Коэффициент RC RC-фильтра канала 1 - НЕ ИСПОЛЬЗУЕТСЯ
+	K_F2,		//Коэффициент усиления RC-фильтра канала 1 - НЕ ИСПОЛЬЗУЕТСЯ
+	OFF_F1,		//Смещение напряжения канала 1
+	OFF_F2,		//Смещение напряжения канала 2 
+	MINBR_FT,	//Минимальна скорость потока, которая регистрируетя как начало вдоха/выдоха
+	SWBR_F2,	//Скорость потока, при которой расчет ОРВ переключается на грубый канал - НЕ ИСПОЛЬЗУЕТСЯ
+	BR_V_MIN,	//Минимальный регистрируемый объем вдоха/выдоха, мл
+	BR_V_MAX,	//Максимальный регистрируемый объем вдоха/выдоха, мл
+	BR_T_MIN,	//Минимальное регистрируемое время вдоха/выдоха, мс
+	BR_T_MAX,	//Максимальное регистрируемое время вдоха/выдоха, мс
+	PT_FAN,		//П-коэффициент ПИДа длительности работы вентилятора
+	IT_FAN,		//И-коэффициент ПИДа длительности работы вентилятора
+	DT_FAN,		//Д-коэффициент ПИДа длительности работы вентилятора
+	PI_FAN,		//П-коэффициент ПИДа скорости работы вентилятора
+	II_FAN,		//И-коэффициент ПИДа скорости работы вентилятора
+	DI_FAN,		//Д-коэффициент ПИДа скорости работы вентилятора
+	FAN_MIN,	//Минимальная скорость вентилятора, расчитанная ПИДом, при которой вентилятор включается
+	FAN_PID_T,	//Максимальное время работы вентилятора, которое может выдать ПИД
+	CE,			//Коэффициент Се для расчета ОРВ по ГОСТ
+	NLIN_FAN,	//Коэффициент нелинейности П-коэффициента ПИДа длительности работы вентилятора
+	EMF0,		//ЕДС0 датчика СО2
+	DELTA_EMF,	//Дельта-ЕДС датчика СО2
+	K_AMP,		//Коэффициент усиления усилителя СО2
 	saved_parameters_list_SIZE
 }saved_parameters_list;
 
@@ -113,8 +124,21 @@ typedef enum
 {
 	O2_K,	//расчитанный коеффициент усиления для датчика кислорода
 	O2_SET,	//заднное для поддержания содержание кислорода в контуре
+	AGE,	//Возраст пациента
 	nonsaved_parameters_list_SIZE
 }nonsaved_parameters_list;
+
+typedef enum
+{
+	DEVICE_IDLE_STATE,				
+	DEVICE_THERAPY_STATE,
+	DEVICE_DIAGNOSTIC_STATE,
+	DEVICE_PROCEDURE_END_STATE,
+	DEVICE_PROCEDURE_ALARM_STATE,
+	DEVICE_DIAGNOSTIC_END_STATE,
+	DEVICE_PROCEDURE_DAMAGE_STATE,
+	device_states_list_size
+}device_states_list;
 
 extern parametr_t Measurements[measurements_list_SIZE];
 extern parametr_t savedParameters[saved_parameters_list_SIZE];

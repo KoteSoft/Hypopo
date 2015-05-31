@@ -17,7 +17,7 @@
 #include "modbus/mbport.h"
 
 #define REG_INPUT_START 101	//100
-#define REG_INPUT_NREGS 50
+#define REG_INPUT_NREGS 56
 
 #define REG_HOLDING_START 1201	//1200
 #define REG_HOLDING_NREGS 340

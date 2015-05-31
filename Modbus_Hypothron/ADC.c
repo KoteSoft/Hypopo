@@ -8,13 +8,14 @@
 #include "ADC.h"
 #include "GlobalConstants.h"
 #include "Params.h"
+#include <avr/interrupt.h>
 
 volatile uint16_t ADC_Result[8];
 
 /*Не работает*/
 ISR(ADC_vect)
 {
-	Measurements[ADC2].value = (ADC * U_ref) / 1023.0;
+	//Measurements[ADC2].value = (ADC * U_ref) / 1023.0;
 	//ADCSRA=1<<ADEN|1<<ADSC|0<<ADATE|0<<ADIF|1<<ADIE|1<<ADPS2|1<<ADPS1|1<<ADPS0;
 }
 

@@ -32,6 +32,7 @@ int main(void)
 	
 	Qprev1 = 0.0;
 	Qprev2 = 0.0;
+	Measurements[STATE].array[0] = DEVICE_IDLE_STATE;
 	
 	Timer1_Init(H_Step);	//РАСКОММЕНТИРОВАТЬ!!!!!!!!!!
 	PWM_Timer2_Init();	//РАСКОММЕНТИРОВАТЬ!!!!!!!!!!
