@@ -8,6 +8,7 @@
 #include "avr/io.h"
 #include <avr/interrupt.h>
 #include <stdint.h>
+#include <util/delay.h>
 
 volatile static uint8_t sound_on_flag;
 
@@ -38,4 +39,37 @@ ISR(TIMER2_OVF_vect)
 	{
 		PORTD |= 1<<PORTD6;
 	}
+}
+
+void SoundStartMusic()
+{
+	for (int32_t i = 0; i < 50; i++)
+	{
+		if (bit_is_set(PORTD, PORTD6))
+		{
+			PORTD &= ~(1 << PORTD6);
+		}
+		else
+		{
+			PORTD |= 1<<PORTD6;
+		}
+		_delay_us(700);
+	}
+	
+	_delay_ms(50);
+	
+	for (int32_t i = 0; i < 50; i++)
+	{
+		if (bit_is_set(PORTD, PORTD6))
+		{
+			PORTD &= ~(1 << PORTD6);
+		}
+		else
+		{
+			PORTD |= 1<<PORTD6;
+		}
+		_delay_us(700);
+	}
+	
+	PORTD &= ~(1 << PORTD6);
 }

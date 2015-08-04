@@ -22,7 +22,7 @@ typedef enum
 	MB_O2_K				=	0,	//измеренный коэфициент О2->В
 	MB_O2_SET			=	2,	//Заданная к поддержанию концентрация О2
 	MB_AGE				=	3,	//Возраст пациента
-	MB_STATE			=	4,	//Состояние/режим работы
+	MB_MUTE				=	4,	//Беззвучный режим работы
 	MB_PARAM6			=	5,
 	MB_PARAM7			=	6,
 	MB_PARAM8			=	7,
@@ -125,6 +125,7 @@ typedef enum
 	O2_K,	//расчитанный коеффициент усиления для датчика кислорода
 	O2_SET,	//заднное для поддержания содержание кислорода в контуре
 	AGE,	//Возраст пациента
+	MUTE,
 	nonsaved_parameters_list_SIZE
 }nonsaved_parameters_list;
 
@@ -143,6 +144,7 @@ typedef enum
 extern parametr_t Measurements[measurements_list_SIZE];
 extern parametr_t savedParameters[saved_parameters_list_SIZE];
 extern parametr_t nonsavedParameters[nonsaved_parameters_list_SIZE];
+extern uint16_t alarmMuteTimer;
 
 void ModbusLoader();
 void ModbusSaver();

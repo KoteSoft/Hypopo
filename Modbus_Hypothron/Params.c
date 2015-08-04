@@ -24,6 +24,8 @@ void ModbusEEPROMLoader();
 
 uint8_t MbComm(uint16_t code);
 
+uint16_t alarmMuteTimer = 0;
+
 //Выводим телеметрию и т.п. в Inputs
 void ModbusLoader()
 {
@@ -114,6 +116,7 @@ uint8_t MbComm(uint16_t code)
 		case 3:
 		return O2CoeffCalc();
 		
+		//Начать сеанс лечения
 		case 4:
 		{
 			Measurements[DAMAGE].value = 0.0;
@@ -123,18 +126,38 @@ uint8_t MbComm(uint16_t code)
 			return 0;
 		}
 		
+		//Начать сеанс диагностики
 		case 5:
 		{
 			Measurements[F_BR_START].value = Measurements[Fbreth].value;
 			Measurements[HR_START].value = Measurements[HR_AVG].value;
 			Measurements[STATE].array[0] = DEVICE_DIAGNOSTIC_STATE;
+			Measurements[DAMAGE].value = 0.0;
+			Measurements[ALARM].value = 0.0;
+			Measurements[DIAG].value = 0.0;
 			nonsavedParameters[O2_SET].value = 0.0;
 			return 0;
 		}
 		
+		//Завершить все и перейти в режим ожидания
 		case 6:
 		{
+			Measurements[DAMAGE].value = 0.0;
+			Measurements[ALARM].value = 0.0;
+			Measurements[DIAG].value = 0.0;
 			Measurements[STATE].array[0] = DEVICE_IDLE_STATE;
+			nonsavedParameters[O2_SET].value = 0.0;
+			return 0;
+		}
+		
+		//Отключить сигнал
+		case 7:
+		{
+			alarmMuteTimer = 3000;
+			Measurements[DAMAGE].value = 0.0;
+			Measurements[ALARM].value = 0.0;
+			Measurements[DIAG].value = 0.0;
+			Measurements[STATE].array[0] = DEVICE_THERAPY_STATE;
 			return 0;
 		}
 		

@@ -11,5 +11,6 @@
 
 void Sound_On();
 void Sound_Off();
+void SoundStartMusic();
 
 #endif /* OUTPUT_H_ */

@@ -65,6 +65,10 @@ void Timer1_Tick()
 	_delay_ms(10);
 	PORTD &= ~(1<<PORTD6);
 	*/
+	if (alarmMuteTimer > 0)
+	{
+		alarmMuteTimer--;
+	}
 	
 	fanTimer++;
 	if (fanTimer > (uint16_t)savedParameters[FAN_PID_T].value) //10sec
@@ -244,19 +248,23 @@ void StateMachine()
 
 uint8_t PatientDamage()
 {
+	return 0; ////УБРАТЬ!!!!!!!!!!!!!!!
+	if (nonsavedParameters[MUTE].array[0] == 1 || alarmMuteTimer)
+	return 0;
+	
 	if (Measurements[CO2].value > 1.0)
 	{
 		Measurements[DAMAGE].value = 1;
 		return 1;
 	}
 	
-	if (Measurements[SPO2_AVG].value < 75)
+	if ((Measurements[SPO2_AVG].value < 75) && Measurements[SPO2_DEV].value < 1.0)
 	{
 		Measurements[DAMAGE].value = 2;
 		return 2;
 	}
 	
-	if (Measurements[HR_AVG].value < 40 || Measurements[HR_AVG].value > 140)
+	if ((Measurements[HR_AVG].value < 40 || Measurements[HR_AVG].value > 140) && Measurements[HR_DEV].value < 1.0)
 	{
 		Measurements[DAMAGE].value = 3;
 		return 3;
@@ -267,21 +275,24 @@ uint8_t PatientDamage()
 
 uint8_t PatientAlarm()
 {
+	if (nonsavedParameters[MUTE].array[0] == 1 || alarmMuteTimer)
+	return 0;
+	
 	if (Measurements[CO2].value > 0.8)
 	{
 		Measurements[ALARM].value = 1;
 		return 1;
 	}
 	
-	if (Measurements[SPO2_AVG].value < 80.1)
+	if ((Measurements[SPO2_AVG].value < 80.1) && Measurements[SPO2_DEV].value < 1.0)
 	{
 		Measurements[ALARM].value = 2;
 		return 2;
 	}
 	
-	if (Measurements[HR_AVG].value < 50 || Measurements[HR_AVG].value > 110)
+	if ((Measurements[HR_AVG].value < 50 || Measurements[HR_AVG].value > 110) && Measurements[HR_DEV].value < 1.0)
 	{
-		Measurements[ALARM].value = 1;
+		Measurements[ALARM].value = 3;
 		return 3;
 	}
 	
@@ -296,13 +307,13 @@ uint8_t PatientDiagnosticEnd()
 		return 1;
 	}
 	
-	if (Measurements[SPO2_AVG].value < 80.1)
+	if ((Measurements[SPO2_AVG].value < 80.1) && Measurements[SPO2_DEV].value < 1.0)
 	{
 		Measurements[DIAG].value = 2;
 		return 2;
 	}
 	
-	if (Measurements[HR_AVG].value < 50 || Measurements[HR_AVG].value > 110)
+	if ((Measurements[HR_AVG].value < 50 || Measurements[HR_AVG].value > 110) && Measurements[HR_DEV].value < 1.0)
 	{
 		Measurements[DIAG].value = 3;
 		return 3;

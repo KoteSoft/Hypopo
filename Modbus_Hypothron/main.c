@@ -15,6 +15,7 @@
 #include "Fan.h"
 #include "i2c.h"
 #include "CMS50L.h"
+#include "Output.h"
 
 USHORT   usRegInputBuf[REG_INPUT_NREGS];
 USHORT   usRegHoldingBuf[REG_HOLDING_NREGS];
@@ -40,6 +41,8 @@ int main(void)
 		
 	sei();
 	
+	SoundStartMusic();
+	
 	eMBInit( MB_RTU, 0x01, 0, UART_BAUD_RATE, MB_PAR_NONE );
 	eMBEnable();
 	
@@ -47,7 +50,7 @@ int main(void)
 	ModbusInitValues();
 	
 	ADC_Init();
-	
+		
     while(1)
     {
 		/*Актуализируем значения Modbus-регистров в соответствии со значениями параметров*/
